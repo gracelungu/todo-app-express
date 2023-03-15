@@ -59,4 +59,12 @@ const todoList = [
   };
   
   module.exports = { getAllItems, getSingleItem, createItem, updateItem, deleteItem };
-  
+  const { query } = require('../helpers/db');
+const getItemsWithPagination = async (req, res) => {
+ const page = parseInt(req.query.page) || 1;
+ const limit = parseInt(req.query.limit) || 10;
+ const offset = (page - 1) * limit;
+ const items = await query('SELECT * FROM items ORDER BY id LIMIT  OFFSET ', [limit, offset]);
+ res.status(200).json(items.rows);
+};
+module.exports = { getAllItems, getSingleItem, createItem, updateItem, deleteItem, getItemsWithPagination };
