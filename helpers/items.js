@@ -6,6 +6,12 @@ const todoList = [
   
   // GET all items
   const getAllItems = (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + parseInt(limit);
+
+  res.json(todoList.slice(startIndex, endIndex));
+};
     res.json(todoList);
   };
   
